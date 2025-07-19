@@ -1,23 +1,23 @@
 import express from "express";
-import contactCtrl from "../controllers/contact.controller.js";
+import jobSkillCtrl from "../controllers/jobSkill.controller.js";
 import authCtrl from "../controllers/auth.controller.js";  // If authentication is required
 const router = express.Router();
 
-// Route: Add a new contact
-router.route("/api/contacts").post(contactCtrl.create);
+// Route: Add a new jobSkill
+router.route("/api/jobSkill").post(jobSkillCtrl.create);
 
-// Route: Get all contacts
-router.route("/api/contacts").get(contactCtrl.list);
+// Route: Get all jobSkills
+router.route("/api/jobSkill").get(jobSkillCtrl.list);
 
-// Route: Get, update, delete a specific contact by ID
+// Route: Get, update, delete a specific jobSkill by ID
 router
-    .route("/api/contacts/:contactId")
-    .get(contactCtrl.read)  // Get a specific contact
-    .put(contactCtrl.update)  // Update a specific contact
-    .delete(contactCtrl.remove);  // Delete a specific contact
+    .route("/api/jobSkill/:jobSkillId")
+    .get(jobSkillCtrl.read)  // Get a specific jobSkill
+    .put(jobSkillCtrl.update)  // Update a specific jobSkill
+    .delete(jobSkillCtrl.remove);  // Delete a specific jobSkill
 
-// Param: Handle 'contactId' parameter
-router.param("contactId", contactCtrl.contactByID);
-router.route("/api/contacts").delete(contactCtrl.removeAll);
+// Param: Handle 'jobSkillId' parameter
+router.param("jobSkillId", jobSkillCtrl.jobSkillByID);
+router.route("/api/jobSkill").delete(jobSkillCtrl.removeAll);
 
 export default router;
