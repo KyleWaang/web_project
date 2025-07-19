@@ -11,11 +11,11 @@ export const create = async (req, res) => {
     }
 };
 
-// List all newss
+// List all news
 export const list = async (req, res) => {
     try {
-        const newss = await News.find();
-        res.status(200).json(newss);
+        const news = await News.find();
+        res.status(200).json(news);
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -33,7 +33,7 @@ export const read = async (req, res) => {
 // Update a news by ID
 export const update = async (req, res) => {
     try {
-        const news = await news.findByIdAndUpdate(req.news._id, req.body, { new: true });
+        const news = await News.findByIdAndUpdate(req.news._id, req.body, { new: true });
         res.status(200).json(news);
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -44,7 +44,7 @@ export const update = async (req, res) => {
 export const remove = async (req, res) => {
     try {
         await req.news.deleteOne();
-        res.status(200).json({ message: "news deleted successfully" });
+        res.status(200).json({ message: "News deleted successfully" });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -55,7 +55,7 @@ export const newsByID = async (req, res, next, id) => {
     try {
         const news = await News.findById(id);
         if (!news) {
-            return res.status(404).json({ error: "news not found" });
+            return res.status(404).json({ error: "News not found" });
         }
         req.news = news;
         next();
