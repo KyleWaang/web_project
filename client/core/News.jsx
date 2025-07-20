@@ -1,10 +1,45 @@
+import React from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+
+const NewsContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  background: `linear-gradient(120deg, ${theme.palette.primary.light} 0%, ${theme.palette.secondary.light} 100%)`,
+  padding: theme.spacing(4),
+}));
+
+const NewsHeader = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.dark,
+  fontWeight: 700,
+  marginBottom: theme.spacing(2),
+}));
+
+const StyledGrid = styled(Grid)(() => ({
+  marginTop: '2rem',
+}));
+
+const NewsCard = styled(Card)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius * 2,
+  boxShadow: theme.shadows[4],
+  transition: 'transform 0.3s, box-shadow 0.3s',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+    boxShadow: theme.shadows[8],
+  },
+}));
+
 export default function News() {
+  const theme = useTheme();
   const news = [
     {
-      date: '2025-07-16',
+      date: 'July 16, 2025',
       title: 'DAVE THE DIVER Community Contest',
-      content:
-        `MapleStory X DAVE THE DIVER: Chef's Special Contest
+      content: `MapleStory X DAVE THE DIVER: Chef's Special Contest
 
         Contest Duration:
 
@@ -51,13 +86,12 @@ export default function News() {
         Toasted Taiyaki Mount
         3x EXP Coupon (15 min) x5
         Onyx Apple (x10) Coupon
-        Submissions will close on August 21, 2025 at 11:00 AM PDT!`
+        Submissions will close on August 21, 2025 at 11:00 AM PDT!`,
     },
     {
-      date: '2025-07-16',
-      title: "v.261 Known Issues",
-      content:
-        `The Known Issues section focuses on the major issues that have significantly impacted the game and community, and which our team is actively addressing. Please note that while we aim to cover the most impactful issues, this list will not encompass every reported issue. Check back regularly for updates on the status of these issues and information on resolved issues, or any new issues that may have been added.
+      date: 'July 16, 2025',
+      title: 'v.261 Known Issues',
+      content: `The Known Issues section focuses on the major issues that have significantly impacted the game and community, and which our team is actively addressing. Please note that while we aim to cover the most impactful issues, this list will not encompass every reported issue. Check back regularly for updates on the status of these issues and information on resolved issues, or any new issues that may have been added.
 
         Here you’ll find a list of known and resolved issues from the v.261 - MapleStory x DAVE THE DIVER update:
 
@@ -82,13 +116,12 @@ export default function News() {
         Resolved an issue where players with older mounts that require a saddle registered were sometimes unable to enter Ride or Die on Code X difficulty.
         Resolved an issue where purchasing a Premium Hyper Teleport Rock with insufficient mesos would display a blank error message.
         Resolved an issue where Adele's Hunting Decree skill could not be used when fighting Ursus.
-        Resolved an issue where the Arcane River Droplet Stone exchange text was not displaying properly in Challenger-Heroic World.`
+        Resolved an issue where the Arcane River Droplet Stone exchange text was not displaying properly in Challenger-Heroic World.`,
     },
     {
-      date: '2025-07-16',
+      date: 'July 16, 2025',
       title: 'MapleStory x DAVE THE DIVER Event',
-      content:
-        `As an unusual storm washes over Maple World, some new friends from a far-off land have washed up, and need your help to get home... all while making a pretty meso from the superb fishing in the Blue Hole!
+      content: `As an unusual storm washes over Maple World, some new friends from a far-off land have washed up, and need your help to get home... all while making a pretty meso from the superb fishing in the Blue Hole!
 
         Event Duration (Rewards Enabled):
 
@@ -103,26 +136,39 @@ export default function News() {
         CEST (UTC +2): Wednesday, August 27, 2025 (End of Maintenance) - Wednesday, September 24, 2025 1:59 AM
         AEST (UTC +10): Wednesday, August 27, 2025 (End of Maintenance) - Wednesday, September 24, 2025 9:59 AM
         Note: While the DAVE THE DIVER event rewards are only available through Tuesday, August 26, 2025 at 11:59 PM UTC, you will still be able to enjoy the story and event games during the following Free Play section.
-        `
-    }
-  ]
+        `,
+    },
+  ];
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
-      <h1 style={{ textAlign: 'center' }}>NEWS</h1>
-      <p>CHECK OUT THE LATEST NEWS</p>
+    <NewsContainer>
+      <Typography variant="h3" align="center" sx={{ fontWeight: 700 }}>
+        NEWS
+      </Typography>
+      <Typography variant="subtitle1" align="center" sx={{ color: theme.palette.text.secondary }}>
+        Check out the latest updates
+      </Typography>
+      <Divider sx={{ my: 3, width: '60%', mx: 'auto', borderColor: theme.palette.divider }} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '2rem' }}>
-        {news.map((project, index) => (
-          <div key={index} style={{ border: '1px solid #ddd', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
-            <div style={{ padding: '1rem' }}>
-              <h2>{project.title}</h2>
-              <p style={{ color: '#888', fontSize: '0.9rem' }}>{project.date}</p>
-              <p style={{ whiteSpace: 'pre-line' }}>{project.content}</p>
-            </div>
-          </div>
+      <StyledGrid container spacing={4}>
+        {news.map((item, idx) => (
+          <Grid item key={idx} xs={12} sm={6} md={4}>
+            <NewsCard>
+              <CardContent>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                  {item.title}
+                </Typography>
+                <Typography variant="caption" display="block" gutterBottom sx={{ color: theme.palette.text.secondary }}>
+                  {item.date}
+                </Typography>
+                <Typography variant="body2" sx={{ lineHeight: 1.6, whiteSpace: 'pre-line' }}>
+                  {item.content}
+                </Typography>
+              </CardContent>
+            </NewsCard>
+          </Grid>
         ))}
-      </div>
-    </div>
-  )
+      </StyledGrid>
+    </NewsContainer>
+  );
 }
