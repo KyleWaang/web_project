@@ -53,7 +53,7 @@ export default function News() {
         
         setNews(data.map(item => ({
           ...item,
-          date: new Date(item.date * 1000)?.toLocaleDateString(), // format date
+          date: new Date(item.date)?.toLocaleDateString(), // format date
         })));
       }
     });
