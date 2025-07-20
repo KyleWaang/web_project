@@ -5,6 +5,7 @@ import compress from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import userRoutes from "./routes/user.routes.js";
+import newsRoutes from "./routes/news.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 
 
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", userRoutes);
+app.use("/", newsRoutes);
 app.use("/", authRoutes);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,5 +29,5 @@ app.use((err, req, res, next) => {
     console.log(err);
   }
 });
-    
+
 export default app;

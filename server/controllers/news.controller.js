@@ -3,6 +3,7 @@ import News from "../models/news.model.js";  // Assuming you have a news model
 // Create a new news
 export const create = async (req, res) => {
     try {
+        console.log("Creating news with data:", req.body);
         const news = new News(req.body);
         await news.save();
         res.status(201).json(news);
