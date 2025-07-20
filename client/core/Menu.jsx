@@ -2,8 +2,11 @@ import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from '@mui/icons-material/Info';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import ArticleIcon from '@mui/icons-material/Article';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 import Button from "@mui/material/Button";
 import auth from "../lib/auth-helper";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -19,17 +22,39 @@ export default function Menu() {
     <AppBar position="static">
       <Toolbar sx={{ display: "flex", gap: 2, alignItems: "center" }}>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          MERN Skeleton
+          <Link to="/">
+            <Button sx={{ color: isActive(location, "/") }}>
+              <HomeIcon /> Maple Story
+            </Button>
+          </Link>
+
+          <Link to="/about">
+            <Button sx={{ color: isActive(location, "/about") }}>
+              <InfoIcon /> ABOUT
+            </Button>
+          </Link>
+
+          <Link to="/news">
+            <Button sx={{ color: isActive(location, "/news") }}>
+              <NewspaperIcon /> NEWS
+            </Button>
+          </Link>
+
+          <Link to="/jobSkill">
+            <Button sx={{ color: isActive(location, "/jobSkill") }}>
+              <ArticleIcon /> JOB SKILLS
+            </Button>
+          </Link>
+
+          <Link to="/contact">
+            <Button sx={{ color: isActive(location, "/contact") }}>
+              <ContactPageIcon /> CONTACT
+            </Button>
+          </Link>
         </Typography>
 
-        <Link to="/">
-          <IconButton aria-label="Home" sx={{ color: isActive(location, "/") }}>
-            <HomeIcon />
-          </IconButton>
-        </Link>
-
         <Link to="/users">
-          <Button sx={{ color: isActive(location, "/users") }}>Users</Button>
+          <Button sx={{ color: isActive(location, "/users") }}>USERS</Button>
         </Link>
 
         {!auth.isAuthenticated() && (

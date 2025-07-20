@@ -8,17 +8,22 @@ import Profile from "./user/Profile.jsx";
 import PrivateRoute from "./lib/PrivateRoute.jsx";
 import EditProfile from "./user/EditProfile.jsx";
 
+import About from './core/About'
+import News from './core/News'
+import JobSkill from './core/JobSkill'
+import Contact from './core/Contact'
+
 import Menu from "./core/Menu";
 function MainRouter() {
   return (
     <div>
-       <Menu />
+      <Menu />
       
       <Routes>
-         <Route path="/" element={<Home />} />
-         <Route path="/users" element={<Users />} />
-         <Route path="/signup" element={<Signup />} />
-         <Route path="/signin" element={<Signin />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
         
         <Route
           path="/user/edit/:userId"
@@ -28,7 +33,12 @@ function MainRouter() {
             </PrivateRoute>
           }
         />
-         <Route path="/user/:userId" element={<Profile />} />
+        <Route path="/user/:userId" element={<Profile />} />
+
+        <Route exact path="/about" element={<About />} />
+        <Route exact path="/news" element={<News />} />
+        <Route exact path="/jobSkill" element={<JobSkill />} />
+        <Route exact path="/contact" element={<Contact />} />
       </Routes>
     </div>
   );
