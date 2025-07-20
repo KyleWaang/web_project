@@ -1,36 +1,4 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-
 export default function Contact() {
-  // Navigation hook from React Router to redirect user
-  const navigate = useNavigate()
-
-  // State to track form input fields
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    contactNumber: '',
-    email: '',
-    message: ''
-  })
-
-  // Update form state when input fields change
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  // Handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault() // Prevent page reload
-
-    // Log the captured form data (for now)
-    console.log('Contact form submitted:', contactForm)
-
-    // Redirect to the Home Page after submission
-    navigate('/')
-  }
-
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
       <h1>Contact Us</h1>
