@@ -40,6 +40,14 @@ export default function Menu() {
             </Button>
           </Link>
 
+          {auth.isAuthenticated() && (
+            <Link to="/createNews">
+              <Button sx={{ color: isActive(location, "/createNews") }}>
+                <NewspaperIcon /> CREATE NEWS
+              </Button>
+            </Link>
+          )}
+
           <Link to="/jobSkill">
             <Button sx={{ color: isActive(location, "/jobSkill") }}>
               <ArticleIcon /> JOB SKILLS

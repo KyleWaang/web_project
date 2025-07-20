@@ -9,7 +9,8 @@ import PrivateRoute from "./lib/PrivateRoute.jsx";
 import EditProfile from "./user/EditProfile.jsx";
 
 import About from './core/About'
-import News from './core/News'
+import News from './news/News'
+import CreateNews from "./news/CreateNews.jsx";
 import JobSkill from './core/JobSkill'
 import Contact from './core/Contact'
 
@@ -37,6 +38,7 @@ function MainRouter() {
 
         <Route exact path="/about" element={<About />} />
         <Route exact path="/news" element={<News />} />
+        <Route exact path="/createNews" element={<CreateNews />} />
         <Route exact path="/jobSkill" element={<JobSkill />} />
         <Route exact path="/contact" element={<Contact />} />
       </Routes>
