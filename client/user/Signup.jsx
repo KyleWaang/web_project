@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Box,
   Card,
   CardContent,
   Typography,
@@ -12,123 +13,121 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { create } from "./api-user";
 
-export default function Signup() {
-  const [values, setValues] = useState({
-    name: "",
-    password: "",
-    email: "",
-    error: "",
-  });
+// Full-page container
+const SignupContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  background: `linear-gradient(120deg, ${theme.palette.primary.light} 0%, ${theme.palette.secondary.light} 100%)`,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: theme.spacing(4),
+}));
 
+// Styled card
+const SignupCard = styled(Card)(({ theme }) => ({
+  maxWidth: 400,
+  width: '100%',
+  borderRadius: theme.shape.borderRadius * 2,
+  boxShadow: theme.shadows[5],
+  overflow: 'visible',
+}));
+
+// Header typography
+const Header = styled(Typography)(({ theme }) => ({
+  fontWeight: 700,
+  marginBottom: theme.spacing(2),
+  color: theme.palette.primary.dark,
+}));
+
+export default function Signup() {
+  const theme = useTheme();
+  const [values, setValues] = useState({ name: "", password: "", email: "", error: "" });
   const [open, setOpen] = useState(false);
 
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleChange = (name) => (event) => setValues({ ...values, [name]: event.target.value });
+  const handleClose = () => setOpen(false);
 
   const clickSubmit = () => {
-    const user = {
-      name: values.name || undefined,
-      email: values.email || undefined,
-      password: values.password || undefined,
-    };
-
+    const user = { name: values.name, email: values.email, password: values.password };
     create(user).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setOpen(true);
-      }
+      if (data.error) setValues({ ...values, error: data.error });
+      else setOpen(true);
     });
   };
 
   return (
-    <div>
-      <Card
-        sx={{
-          maxWidth: 400,
-          margin: "0 auto",
-          mt: 3,
-          p: 2,
-          textAlign: "center",
-        }}
-      >
-        <CardContent>
-          <Typography variant="h6" sx={{ fontSize: 18 }}>
-            Sign Up
+    <SignupContainer>
+      <SignupCard>
+        <CardContent sx={{ textAlign: 'center', p: 4 }}>
+          <Header variant="h5">Create Account</Header>
+          <Typography variant="body2" sx={{ mb: 3, color: theme.palette.text.secondary }}>
+            Join the MapleStory community and start your adventure!
           </Typography>
 
           <TextField
             id="name"
             label="Name"
-            sx={{ width: "100%", mb: 2 }}
+            fullWidth
+            variant="outlined"
+            sx={{ mb: 2 }}
             value={values.name}
-            onChange={handleChange("name")}
-            margin="normal"
+            onChange={handleChange('name')}
           />
           <TextField
             id="email"
             label="Email"
-            sx={{ width: "100%", mb: 2 }}
+            fullWidth
+            variant="outlined"
+            sx={{ mb: 2 }}
             value={values.email}
-            onChange={handleChange("email")}
-            margin="normal"
+            onChange={handleChange('email')}
           />
           <TextField
             id="password"
             label="Password"
-            sx={{ width: "100%", mb: 2 }}
-            value={values.password}
-            onChange={handleChange("password")}
             type="password"
-            margin="normal"
+            fullWidth
+            variant="outlined"
+            sx={{ mb: 1 }}
+            value={values.password}
+            onChange={handleChange('password')}
           />
-
           {values.error && (
-            <Typography color="error" sx={{ mt: 1 }}>
+            <Typography color="error" sx={{ mt: 1, fontSize: '0.875rem' }}>
               {values.error}
             </Typography>
           )}
         </CardContent>
-        <CardActions>
+
+        <CardActions sx={{ justifyContent: 'center', pb: 4 }}>
           <Button
-            color="primary"
             variant="contained"
+            size="large"
             onClick={clickSubmit}
-            sx={{ margin: "0 auto", mb: 2 }}
+            sx={{ px: 5, py: 1.5 }}
           >
-            Submit
+            Sign Up
           </Button>
         </CardActions>
-      </Card>
+      </SignupCard>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Account</DialogTitle>
+        <DialogTitle>Account Created</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            New account successfully created.
-          </DialogContentText>
+          <DialogContentText>Your new account has been created successfully!</DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Link to="/signin">
-            <Button
-              color="primary"
-              autoFocus
-              variant="contained"
-              onClick={handleClose}
-            >
+        <DialogActions sx={{ pr: 3, pb: 2 }}>
+          <Link to="/signin" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" onClick={handleClose} autoFocus>
               Sign In
             </Button>
           </Link>
         </DialogActions>
       </Dialog>
-    </div>
+    </SignupContainer>
   );
 }

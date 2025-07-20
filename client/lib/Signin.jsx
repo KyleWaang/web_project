@@ -1,107 +1,110 @@
 import React, { useState } from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Icon from "@mui/material/Icon";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  CardActions,
+  Button,
+  Icon,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 import auth from "./auth-helper.js";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, Link as RouterLink } from "react-router-dom";
 import { signin } from "./api-auth.js";
 
-export default function Signin() {
-  const location = useLocation();
+// Full-page wrapper
+const SigninContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  background: `linear-gradient(120deg, ${theme.palette.primary.light} 0%, ${theme.palette.secondary.light} 100%)`,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: theme.spacing(4),
+}));
 
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-    error: "",
-    redirectToReferrer: false,
-  });
+// Card styling
+const SigninCard = styled(Card)(({ theme }) => ({
+  maxWidth: 400,
+  width: '100%',
+  borderRadius: theme.shape.borderRadius * 2,
+  boxShadow: theme.shadows[5],
+}));
+
+// Header typography
+const Header = styled(Typography)(({ theme }) => ({
+  fontWeight: 700,
+  marginTop: theme.spacing(2),
+  color: theme.palette.primary.dark,
+}));
+
+export default function Signin() {
+  const theme = useTheme();
+  const location = useLocation();
+  const [values, setValues] = useState({ email: "", password: "", error: "", redirectToReferrer: false });
+
+  const { from } = location.state || { from: { pathname: "/" } };
+  const { redirectToReferrer } = values;
+
+  if (redirectToReferrer) return <Navigate to={from} />;
+
+  const handleChange = (name) => (event) => setValues({ ...values, [name]: event.target.value });
 
   const clickSubmit = () => {
-    const user = {
-      email: values.email || undefined,
-      password: values.password || undefined,
-    };
+    const user = { email: values.email, password: values.password };
     signin(user).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        auth.authenticate(data, () => {
-          setValues({ ...values, error: "", redirectToReferrer: true });
-        });
-      }
+      if (data.error) setValues({ ...values, error: data.error });
+      else auth.authenticate(data, () => setValues({ ...values, error: "", redirectToReferrer: true }));
     });
   };
 
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const { from } = location.state || {
-    from: { pathname: "/" },
-  };
-
-  const { redirectToReferrer } = values;
-  if (redirectToReferrer) {
-    return <Navigate to={from} />;
-  }
-
   return (
-    <Card
-      sx={{
-        maxWidth: 600,
-        margin: "auto",
-        textAlign: "center",
-        mt: 5,
-        pb: 2,
-      }}
-    >
-      <CardContent>
-        <Typography variant="h6" sx={{ mt: 2, color: "text.primary" }}>
-          Sign In
-        </Typography>
-        <TextField
-          id="email"
-          type="email"
-          label="Email"
-          sx={{ mx: 1, width: 300 }}
-          value={values.email}
-          onChange={handleChange("email")}
-          margin="normal"
-        />
-        <br />
-        <TextField
-          id="password"
-          type="password"
-          label="Password"
-          sx={{ mx: 1, width: 300 }}
-          value={values.password}
-          onChange={handleChange("password")}
-          margin="normal"
-        />
-        <br />
-        {values.error && (
-          <Typography component="p" color="error" sx={{ mt: 1 }}>
-            <Icon color="error" sx={{ verticalAlign: "middle", mr: 0.5 }}>
-              error
-            </Icon>
-            {values.error}
+    <SigninContainer>
+      <SigninCard>
+        <CardContent sx={{ textAlign: 'center', p: 4 }}>
+          <Header variant="h5">Welcome Back</Header>
+          <Typography variant="body2" sx={{ mb: 3, color: theme.palette.text.secondary }}>
+            Sign in to continue your adventure in MapleWorld.
           </Typography>
-        )}
-      </CardContent>
-      <CardActions>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={clickSubmit}
-          sx={{ margin: "auto", mb: 2 }}
-        >
-          Submit
-        </Button>
-      </CardActions>
-    </Card>
+
+          <TextField
+            id="email"
+            label="Email"
+            type="email"
+            variant="outlined"
+            fullWidth
+            sx={{ mb: 2 }}
+            value={values.email}
+            onChange={handleChange('email')}
+          />
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            sx={{ mb: 1 }}
+            value={values.password}
+            onChange={handleChange('password')}
+          />
+          {values.error && (
+            <Typography component="p" color="error" sx={{ mt: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Icon sx={{ mr: 0.5 }}>error</Icon>{values.error}
+            </Typography>
+          )}
+        </CardContent>
+        <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
+          <Button variant="contained" size="large" onClick={clickSubmit} sx={{ px: 5, py: 1.5 }}>
+            Sign In
+          </Button>
+        </CardActions>
+      </SigninCard>
+    </SigninContainer>
   );
 }
