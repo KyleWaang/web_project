@@ -7,6 +7,9 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { list } from "./api-news.js";
+import Button from "@mui/material/Button";
+import auth from "../lib/auth-helper";
+import { Link } from "react-router-dom";
 
 const NewsContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
@@ -50,7 +53,7 @@ export default function News() {
         
         setNews(data.map(item => ({
           ...item,
-          date: new Date(item.date * 1000).toLocaleDateString(), // format date
+          date: new Date(item.date * 1000)?.toLocaleDateString(), // format date
         })));
       }
     });
@@ -60,6 +63,14 @@ export default function News() {
 
 
   return (
+    <>
+      {auth.isAuthenticated() && (
+        <Link to="/createNews">
+          <Button sx={{ color: 'red', position: 'absolute', top: 100, left: 30, m: 2, backgroundColor: '#fff', '&:hover': { backgroundColor: '#f0f0f0' } }}>
+            CREATE NEWS
+          </Button>
+        </Link>
+      )}
     <NewsContainer>
       <Typography variant="h3" align="center" sx={{ fontWeight: 700 }}>
         NEWS
@@ -89,5 +100,6 @@ export default function News() {
         ))}
       </StyledGrid>
     </NewsContainer>
+    </>
   );
 }
