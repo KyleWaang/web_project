@@ -2,7 +2,7 @@ const config = {
     env: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 3000,
     jwtSecret: process.env.JWT_SECRET || "YOUR_secret_key",
-    mongoUri: process.env.MONGODB_URI || "mongodb+srv://x6815541:zXqoiu0n6bZ2FJ2D@assignment.0pc5qwu.mongodb.net/Portfolio?retryWrites=true&w=majority&appName=Assignment" ||
+    mongoUri: process.env.MONGODB_URI || "mongodb+srv://mapleStory:lkpHW7nrVi9Ru4XJ@cluster0.xaoqxgl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" ||
         process.env.MONGO_HOST ||
         'mongodb://' + (process.env.IP || 'localhost') + ':' +
         (process.env.MONGO_PORT || '27017') +
